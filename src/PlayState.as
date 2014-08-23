@@ -6,7 +6,6 @@ package
     import org.flixel.FlxPoint;
 
     import org.flixel.FlxG;
-    import org.flixel.FlxGroup;
     import org.flixel.FlxSprite;
     import org.flixel.FlxState;
     import org.flixel.FlxTilemap;
@@ -19,7 +18,6 @@ package
         private const GAME_AREA_HEIGHT:int = 4;
         private const WORLD_SIZE:int = 64;
 
-        private var worldGroup:FlxGroup = new FlxGroup();
         private var gameBoard:Board = new Board();
 
         private var worldArray:Array = new Array();
@@ -39,9 +37,10 @@ package
         {
             var worldsAnimated:Boolean = gameBoard.animationRunning();
 
+            gameBoard.update();
             if (!worldsAnimated) {
                 if (checkMatchTimer > getTimer()) {
-                    gameBoard.checkMatches();
+                    //gameBoard.checkMatches();
                     checkMatchTimer += 1000;
                 }
 

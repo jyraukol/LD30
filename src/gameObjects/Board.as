@@ -13,12 +13,36 @@ package gameObjects
 
         private var worldArray:Array = new Array();
         private var gameState:FlxState;
-        private var selectedWorld:World = null;
+        private var previouslySelectedWorld:World = null;
+        private var currentlySelectedWorld:World = null;
+        private var needToCheckMatches:Boolean = true;
+        private var needToRevertLastSwap:Boolean = false;
+        private var lastSwap:Array = new Array();
 
         public function Board()
         {
 
         }
+
+        public function update():void {
+            if (needToCheckMatches && !animationRunning()) {
+                var matches:Array = findMatchingWorlds();
+                if (matches.length > 0) {
+                    for (var i:int = 0; i < matches.length; i++ ) {
+                        matches[i].dieAndBornAnew();
+                    }
+
+                } else {
+                    needToCheckMatches = false;
+                    if (previouslySelectedWorld != null && currentlySelectedWorld != null) {
+                        moveWorlds(previouslySelectedWorld, currentlySelectedWorld);
+                        previouslySelectedWorld = null;
+                        currentlySelectedWorld = null;
+                    }
+                }
+            }
+        }
+
 
         public function initBoard(gameState:FlxState):void {
             this.gameState = gameState;
@@ -53,22 +77,14 @@ package gameObjects
                     var world:World = worldArray[y][x];
                     if (world.checkClick()) {
                         // Two worlds selected
-                        if (selectedWorld != null) {
-                            if (selectedWorld.checkSwap(world)) {
-
-                                var selectedWorldCoordinates:FlxPoint = new FlxPoint(selectedWorld.x, selectedWorld.y);
-                                selectedWorld.moveTo(new FlxPoint(world.x, world.y));
-                                world.moveTo(selectedWorldCoordinates);
-                                selectedWorld.removeHighlight();
-                                world.removeHighlight();
-                                var arrayIndexes:FlxPoint = coordinatesToArray(world.moveTarget.x, world.moveTarget.y);
-                                worldArray[arrayIndexes.y][arrayIndexes.x] = world;
-                                arrayIndexes = coordinatesToArray(selectedWorld.moveTarget.x, selectedWorld.moveTarget.y);
-                                worldArray[arrayIndexes.y][arrayIndexes.x] = selectedWorld;
-                            }
+                        if (previouslySelectedWorld != null) {
+                            currentlySelectedWorld = world;
+                            checkSwap(previouslySelectedWorld, currentlySelectedWorld)
+                            needToCheckMatches = true;
+                            break;
                         } else {
                             world.highlight();
-                            selectedWorld = world;
+                            previouslySelectedWorld = world;
                             gemClicked = true;
                             break;
                         }
@@ -77,13 +93,46 @@ package gameObjects
             }
 
             // Clear selection if clicked outside play area
-            if (!gemClicked && selectedWorld != null) {
-                selectedWorld.removeHighlight();
-                selectedWorld = null;
+            if (!gemClicked && previouslySelectedWorld != null) {
+                previouslySelectedWorld.removeHighlight();
+                previouslySelectedWorld = null;
             }
         }
 
         public function checkMatches():void
+        {
+            var matches:Array = findMatchingWorlds();
+            for (var i:int = 0; i < matches.length; i++ ) {
+                matches[i].dieAndBornAnew();
+            }
+
+        }
+
+        private function coordinatesToArray(x:uint, y:uint):FlxPoint
+        {
+            var col:int = (x - MARGIN_LEFT) / WORLD_SIZE;
+            var row:int = (y - MARGIN_TOP) / WORLD_SIZE;
+            return new FlxPoint(col, row);
+        }
+
+
+        private function getWorldTypeAt(x:uint, y:uint):Number
+        {
+            if (x < 0 || x >= GAME_AREA_WIDTH || y < 0 || y >= GAME_AREA_HEIGHT) {
+                return -999;
+            }
+            return getWorldAt(x, y).worldType;
+        }
+
+        private function getWorldAt(x:uint, y:uint):World
+        {
+            if (x < 0 || x > GAME_AREA_WIDTH || y < 0 || y > GAME_AREA_HEIGHT) {
+                return null;
+            }
+            return worldArray[y][x];
+        }
+
+        private function findMatchingWorlds():Array
         {
             var removedWorlds:Array = new Array();
 
@@ -117,37 +166,34 @@ package gameObjects
                             offset++;
                         }
                     }
-
-                    for (var idx:int = 0; idx < removedWorlds.length; idx++ ) {
-                        removedWorlds[idx].dieAndBornAnew();
-                    }
-
                 }
             }
+            return removedWorlds;
         }
 
-        private function coordinatesToArray(x:uint, y:uint):FlxPoint
+        private function checkSwap(world1:World, world2:World):void
         {
-            var col:int = (x - MARGIN_LEFT) / 64;
-            var row:int = (y - MARGIN_TOP) / 64;
-            return new FlxPoint(col, row);
-        }
+            //lastSwap[0] = new FlxPoint(world1.x, world1.y);
+            //lastSwap[1] = new FlxPoint(world2.x, world2.y);
 
-
-        private function getWorldTypeAt(x:uint, y:uint):Number
-        {
-            if (x < 0 || x >= GAME_AREA_WIDTH || y < 0 || y >= GAME_AREA_HEIGHT) {
-                return -999;
+            moveWorlds(world1, world2);
+            if (findMatchingWorlds().length == 0) {
+                needToRevertLastSwap = true;
             }
-            return getWorldAt(x, y).worldType;
         }
 
-        private function getWorldAt(x:uint, y:uint):World
+        private function moveWorlds(world1:World, world2:World):void
         {
-            if (x < 0 || x > GAME_AREA_WIDTH || y < 0 || y > GAME_AREA_HEIGHT) {
-                return null;
-            }
-            return worldArray[y][x];
+            lastSwap[0] = new FlxPoint(world1.x, world1.y);
+            lastSwap[1] = new FlxPoint(world2.x, world2.y);
+            world1.moveTo(new FlxPoint(world2.x, world2.y));
+            world2.moveTo(lastSwap[0]);
+            previouslySelectedWorld.removeHighlight();
+            world2.removeHighlight();
+            var arrayIndexes:FlxPoint = coordinatesToArray(world2.moveTarget.x, world2.moveTarget.y);
+            worldArray[arrayIndexes.y][arrayIndexes.x] = world2;
+            arrayIndexes = coordinatesToArray(world1.moveTarget.x, world1.moveTarget.y);
+            worldArray[arrayIndexes.y][arrayIndexes.x] = world1;
         }
     }
 }
