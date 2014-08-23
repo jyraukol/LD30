@@ -29,7 +29,7 @@ package
 
         override public function create():void
         {
-            checkMatchTimer = getTimer + 1000;
+            checkMatchTimer = getTimer() + 1000;
             for (var y:int = 0; y < GAME_AREA_HEIGHT; y++ ) {
                 worldArray[y] = new Array();
                 var array:Array = worldArray[y];
@@ -54,10 +54,11 @@ package
                 }
             }
             if (!worldsAnimated) {
-                if (checkMatchTimer > getTimer()) {
+                //if (checkMatchTimer > getTimer()) {
                     checkMatches();
                     checkMatchTimer += 1000;
-                }
+                //}
+
                 if (FlxG.mouse.justPressed()) {
                     var gemClicked:Boolean = false;
                     for (var i:int = 0; i < worldGroup.length; i++ ) {
@@ -66,16 +67,19 @@ package
                             // Two worlds selected
                             if (selectedWorld != null) {
                                 if (selectedWorld.checkSwap(world)) {
+
                                     var selectedWorldCoordinates:FlxPoint = new FlxPoint(selectedWorld.x, selectedWorld.y);
-                                    selectedWorld.x = world.x;
-                                    selectedWorld.y = world.y;
-                                    world.x = selectedWorldCoordinates.x;
-                                    world.y = selectedWorldCoordinates.y;
+                                    selectedWorld.moveTo(new FlxPoint(world.x, world.y));
+                                    //selectedWorld.x = world.x;
+                                    //selectedWorld.y = world.y;
+                                    //world.x = selectedWorldCoordinates.x;
+                                    //world.y = selectedWorldCoordinates.y;
+                                    world.moveTo(selectedWorldCoordinates);
                                     selectedWorld.removeHighlight();
                                     world.removeHighlight();
-                                    var arrayIndexes:FlxPoint = coordinatesToArray(world.x, world.y);
+                                    var arrayIndexes:FlxPoint = coordinatesToArray(world.moveTarget.x, world.moveTarget.y);
                                     worldArray[arrayIndexes.y][arrayIndexes.x] = world;
-                                    arrayIndexes = coordinatesToArray(selectedWorld.x, selectedWorld.y);
+                                    arrayIndexes = coordinatesToArray(selectedWorld.moveTarget.x, selectedWorld.moveTarget.y);
                                     worldArray[arrayIndexes.y][arrayIndexes.x] = selectedWorld;
                                 }
                             } else {

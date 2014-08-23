@@ -17,6 +17,13 @@ package gameObjects
         private var resetWorld:Boolean = false;
         private var growing:Boolean = false;
         public var animationRunning:Boolean = false;
+        public var moveTarget:FlxPoint;
+        private var movingTo:int;
+        private const MOVE_SPEED:int = 100;
+        public static const UP:int = 0;
+        public static const RIGHT:int = 1;
+        public static const DOWN:int = 2;
+        public static const LEFT:int = 3;
 
         public function World(x:int, y:int)
         {
@@ -54,6 +61,40 @@ package gameObjects
                     }
                 }
 
+            } else if (moveTarget != null) {
+                if (movingTo == UP && y > moveTarget.y) {
+                    y -= MOVE_SPEED * FlxG.elapsed;
+                    if (y < moveTarget.y) {
+                        y = moveTarget.y;
+                        acceleration.make(0, 0);
+                        animationRunning = false;
+                        moveTarget = null;
+                    }
+                } else if (movingTo == DOWN && y < moveTarget.y) {
+                    y += MOVE_SPEED * FlxG.elapsed;
+                    if (y > moveTarget.y) {
+                        y = moveTarget.y;
+                        velocity.make(0, 0);
+                        animationRunning = false;
+                        moveTarget = null;
+                    }
+                } else if (movingTo == RIGHT && x < moveTarget.x) {
+                    x += MOVE_SPEED * FlxG.elapsed;
+                    if (x > moveTarget.x) {
+                        x = moveTarget.x;
+                        velocity.make(0, 0);
+                        animationRunning = false;
+                        moveTarget = null;
+                    }
+                } else if (movingTo == LEFT && x > moveTarget.x) {
+                    x -= MOVE_SPEED * FlxG.elapsed;
+                    if (x < moveTarget.x) {
+                        x = moveTarget.x;
+                        velocity.make(0, 0);
+                        animationRunning = false;
+                        moveTarget = null;
+                    }
+                }
             }
         }
 
@@ -83,6 +124,22 @@ package gameObjects
 
         public function dieAndBornAnew():void {
             resetWorld = true;
+        }
+
+        public function moveTo(target:FlxPoint):void {
+            moveTarget = new FlxPoint(Math.floor(target.x), Math.floor(target.y));
+            if (target.y < y) {
+                movingTo = UP;
+            } else if (target.y > y) {
+                movingTo = DOWN;
+            } else if (target.x < x) {
+                movingTo = LEFT;
+            } else if (target.x > x) {
+                movingTo = RIGHT;
+            }
+            trace("Movetarget x " + moveTarget.x);
+            trace("Movetarget y " + moveTarget.y);
+            animationRunning = true;
         }
 
     }
