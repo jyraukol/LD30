@@ -1,5 +1,8 @@
 package
 {
+    import flash.utils.getTimer;
+    import org.flixel.FlxPoint;
+
     import gameObjects.Person;
     import org.flixel.FlxG;
     import org.flixel.FlxGroup;
@@ -10,6 +13,9 @@ package
     public class PlayState extends FlxState
     {
         private var player:FlxSprite;
+        private var cableGroup:FlxGroup;
+        private var lastCableDropped:FlxPoint;
+        private var moveSpeed:int = 200;
 
         public function PlayState()
         {
@@ -23,27 +29,42 @@ package
             player.makeGraphic(12, 12, 0xffC0C0C0);
             player.maxVelocity.make(80, 80);
             player.drag.make(250, 250);
+
+            cableGroup = new FlxGroup();
+            cableGroup.add(new FlxSprite( -500, -500));
+            add(cableGroup);
             add(player);
+            lastCableDropped = new FlxPoint(player.x, player.y);
         }
 
         override public function update():void
         {
+
             player.acceleration.x = 0;
             player.acceleration.y = 0;
 
             if (FlxG.keys.LEFT) {
-                player.acceleration.x = -200;
+                player.velocity.x = -moveSpeed;
             }
             if (FlxG.keys.RIGHT) {
-                player.acceleration.x = 200;
+                player.velocity.x = moveSpeed;
             }
 
             if (FlxG.keys.UP) {
-                player.acceleration.y = -200;
+                player.velocity.y = -moveSpeed;
             }
             if (FlxG.keys.DOWN) {
-                player.acceleration.y = 200;
+                player.velocity.y = moveSpeed;
             }
+
+            if (!player.overlaps(cableGroup)) {
+                var cable:FlxSprite = new FlxSprite(player.x + player.width / 2, player.y + player.height / 2).makeGraphic(6, 6, 0xff808000);
+
+                    cableGroup.add(cable);
+                    lastCableDropped.x = player.x;
+                    lastCableDropped.y = player.y;
+                }
+
 
             super.update();
         }
