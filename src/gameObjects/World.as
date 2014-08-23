@@ -12,10 +12,11 @@ package gameObjects
         [Embed(source = "../../assets/gem3.png")] private var image3:Class;
         [Embed(source = "../../assets/gem4.png")] private var image4:Class;
         private var images:Array = new Array(image1, image2, image3, image4);
-        public var worldType:uint;
+        public var worldType:int;
         private const VANISH_TIME:Number = 0.5;
         private var resetWorld:Boolean = false;
         private var growing:Boolean = false;
+        public var animationRunning:Boolean = false;
 
         public function World(x:int, y:int)
         {
@@ -34,6 +35,7 @@ package gameObjects
         override public function update():void
         {
             if (resetWorld) {
+                animationRunning = true;
                 if (!growing) {
                     scale.x -= FlxG.elapsed / VANISH_TIME;
                     scale.y -= FlxG.elapsed / VANISH_TIME;
@@ -48,6 +50,7 @@ package gameObjects
                         scale.make(1, 1);
                         growing = false;
                         resetWorld = false;
+                        animationRunning = false;
                     }
                 }
 
