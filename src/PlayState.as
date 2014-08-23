@@ -17,6 +17,7 @@ package
         private var GAME_AREA_HEIGHT:int = 4;
         private var worldGroup:FlxGroup = new FlxGroup();
         private var selectedWorld:World = null;
+        private var worldArray:Array = new Array();
 
         public function PlayState()
         {
@@ -25,9 +26,12 @@ package
         override public function create():void
         {
             for (var y:int = 0; y < GAME_AREA_HEIGHT; y++ ) {
+                worldArray[y] = new Array();
+                var array:Array = worldArray[y];
                 for (var x:int = 0; x < GAME_AREA_WIDTH; x++ ) {
                     var world:World = new World(MARGIN_LEFT + x * 64, MARGIN_TOP + y * 64);
                     worldGroup.add(world);
+                    array.push(world);
                 }
             }
             add(worldGroup);
@@ -55,8 +59,35 @@ package
                                 world.y = selectedWorldCoordinates.y;
                                 selectedWorld.removeHighlight();
                                 world.removeHighlight();
-                            }
+                                var arrayIndexes:FlxPoint = coordinatesToArray(world.x, world.y);
+                                worldArray[arrayIndexes.y][arrayIndexes.x] = world;
+                                arrayIndexes = coordinatesToArray(selectedWorld.x, selectedWorld.y);
+                                worldArray[arrayIndexes.y][arrayIndexes.x] = selectedWorld;
+                                // Do we have any matches?
+                                /*for (var x:int = 0; x < GAME_AREA_WIDTH; x++ ) {
+                                    for (var y:int = 0; y < GAME_AREA_HEIGHT; y++ ) {
+                                        if (x < GAME_AREA_WIDTH - 2 && getWorldAt(x, y).worldType == getWorldAt(x + 1, y).worldType == getWorldAt(x + 2, y).worldType) {
+                                            var targetType:uint = getWorldAt(x, y).worldType;
+                                            var offset:uint = 0;
+                                            while (getWorldAt(x + offset, y).worldType == targetType) {
+                                                trace("Removing world at x " + x + " y " + y);
+                                                offset++;
+                                            }
 
+                                        }
+                                    }
+                                }*/
+                                for (var x:int = 0; x < GAME_AREA_WIDTH - 1; x++ ) {
+                                    if (worldArray[0][x].worldType == worldArray[0][x + 1].worldType && worldArray[0][x].worldType == worldArray[0][x + 2].worldType) {
+                                        var targetType:uint = worldArray[0][x].worldType;
+                                        var offset:uint = 0;
+                                        while (worldArray[0][x + offset].worldType == targetType) {
+                                            trace("Removing world at x " + x + " offset " + offset + " y " + 0);
+                                            offset++;
+                                        }
+                                    }
+                                }
+                            }
                         } else {
                             world.highlight();
                             selectedWorld = world;
@@ -75,6 +106,22 @@ package
             super.update();
         }
 
+
+        private function coordinatesToArray(x:uint, y:uint):FlxPoint
+        {
+            var col:int = (x - MARGIN_LEFT) / 64;
+            var row:int = (y - MARGIN_TOP) / 64;
+            return new FlxPoint(col, row);
+        }
+
+
+        private function getWorldAt(x:uint, y:uint):World
+        {
+            if (x < 0 || x > GAME_AREA_WIDTH || y < 0 || y > GAME_AREA_HEIGHT) {
+                return null;
+            }
+            return worldArray[y][x];
+        }
 
     }
 

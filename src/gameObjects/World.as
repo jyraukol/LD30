@@ -12,10 +12,12 @@ package gameObjects
         [Embed(source = "../../assets/gem3.png")] private var image3:Class;
         [Embed(source = "../../assets/gem4.png")] private var image4:Class;
         private var images:Array = new Array(image1, image2, image3, image4);
+        public var worldType:uint;
 
         public function World(x:int, y:int)
         {
-            var image:Class = Class(FlxU.getRandom(images, 0, 3));
+            worldType = FlxG.random() * 4;
+            var image:Class = Class(images[worldType]);
             super(x, y, image);
         }
 
