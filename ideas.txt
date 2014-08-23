@@ -1,0 +1,11 @@
+You are hosting a party
+You must connect all the people in the party so all can have a jolly good time
+
+There are different social groups or worlds in the party that your mission is to connect
+
+Each person has different interests and traits, these are represented as symbols on the character
+Connect same symbols between two persons to create a link. Use these links to connect the two social
+groups together.
+
+Grid based
+Different persons have different symbols and might have one or more symbols
