@@ -8,6 +8,7 @@ package
         public function Main() {
             super(640, 480, PlayState, 1);
             forceDebugger = true;
+            FlxG.mouse.show();
         }
 
     }

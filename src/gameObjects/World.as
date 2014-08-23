@@ -1,5 +1,7 @@
 package gameObjects
 {
+    import org.flixel.FlxG;
+    import org.flixel.FlxPoint;
     import org.flixel.FlxSprite;
     import org.flixel.FlxU;
 
@@ -15,6 +17,16 @@ package gameObjects
         {
             var image:Class = Class(FlxU.getRandom(images, 0, 3));
             super(x, y, image);
+        }
+
+        public function checkClick():Boolean
+        {
+            if (overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y))) {
+                trace("World clicked at " + FlxG.mouse.x + " " + FlxG.mouse.y);
+                return true;
+            }
+
+            return false;
         }
 
     }
