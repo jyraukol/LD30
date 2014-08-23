@@ -77,13 +77,20 @@ package
                                         }
                                     }
                                 }*/
-                                for (var x:int = 0; x < GAME_AREA_WIDTH - 1; x++ ) {
-                                    if (worldArray[0][x].worldType == worldArray[0][x + 1].worldType && worldArray[0][x].worldType == worldArray[0][x + 2].worldType) {
-                                        var targetType:uint = worldArray[0][x].worldType;
-                                        var offset:uint = 0;
-                                        while (worldArray[0][x + offset].worldType == targetType) {
-                                            trace("Removing world at x " + x + " offset " + offset + " y " + 0);
-                                            offset++;
+                                for (var x:int = 0; x < GAME_AREA_WIDTH; x++ ) {
+                                    for (var y:int = 0; y < GAME_AREA_HEIGHT; y++ ) {
+                                        if (getWorldTypeAt(x, y) == getWorldTypeAt(x +1, y) && getWorldTypeAt(x, y) == getWorldTypeAt(x + 2, y)) {
+                                            var targetType:uint = getWorldTypeAt(x, y);
+                                            var offset:uint = 0;
+                                            var removedWorlds:Array = new Array();
+                                            while (worldArray[y][x + offset].worldType == targetType) {
+                                                trace("Removing world at x " + x + " offset " + offset + " y " + y);
+                                                removedWorlds.push(worldArray[y][x + offset]);
+                                                offset++;
+                                            }
+                                            for (var idx:uint = 0; idx < removedWorlds.length; idx++ ) {
+                                                removedWorlds[idx].kill();
+                                            }
                                         }
                                     }
                                 }
@@ -114,6 +121,14 @@ package
             return new FlxPoint(col, row);
         }
 
+
+        private function getWorldTypeAt(x:uint, y:uint):uint
+        {
+            if (x < 0 || x >= GAME_AREA_WIDTH || y < 0 || y >= GAME_AREA_HEIGHT) {
+                return null;
+            }
+            return getWorldAt(x, y).worldType;
+        }
 
         private function getWorldAt(x:uint, y:uint):World
         {
