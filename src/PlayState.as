@@ -11,13 +11,17 @@ package
 
     public class PlayState extends FlxState
     {
-        private var MARGIN_TOP:int = 80;
-        private var MARGIN_LEFT:int = 60;
-        private var GAME_AREA_WIDTH:int = 8;
-        private var GAME_AREA_HEIGHT:int = 4;
+        private const MARGIN_TOP:int = 80;
+        private const MARGIN_LEFT:int = 60;
+        private const GAME_AREA_WIDTH:int = 8;
+        private const GAME_AREA_HEIGHT:int = 4;
+        private const WORLD_SIZE:int = 64;
+
         private var worldGroup:FlxGroup = new FlxGroup();
         private var selectedWorld:World = null;
         private var worldArray:Array = new Array();
+        private var animationRunning:Boolean = false;
+        private var animatedRef:World = null;
 
         public function PlayState()
         {
@@ -29,7 +33,7 @@ package
                 worldArray[y] = new Array();
                 var array:Array = worldArray[y];
                 for (var x:int = 0; x < GAME_AREA_WIDTH; x++ ) {
-                    var world:World = new World(MARGIN_LEFT + x * 64, MARGIN_TOP + y * 64);
+                    var world:World = new World(MARGIN_LEFT + x * WORLD_SIZE, MARGIN_TOP + y * WORLD_SIZE);
                     worldGroup.add(world);
                     array.push(world);
                 }
@@ -39,16 +43,16 @@ package
 
         override public function update():void
         {
-            if (FlxG.mouse.justPressed()) {
+            if (animationRunning) {
+                if (animatedRef.scale.x == 1) {
+                    animationRunning = false;
+                    animatedRef = null;
+                }
+            } else if (FlxG.mouse.justPressed()) {
                 var gemClicked:Boolean = false;
                 for (var i:int = 0; i < worldGroup.length; i++ ) {
                     var world:World = worldGroup.members[i];
                     if (world.checkClick()) {
-                        // Figure out row and column
-                        var col:int = (world.x - MARGIN_LEFT) / 64;
-                        var row:int = (world.y - MARGIN_TOP) / 64;
-                        trace("Row: " + row + " Col: " + col);
-
                         // Two worlds selected
                         if (selectedWorld != null) {
                             if (selectedWorld.checkSwap(world)) {
@@ -64,41 +68,7 @@ package
                                 arrayIndexes = coordinatesToArray(selectedWorld.x, selectedWorld.y);
                                 worldArray[arrayIndexes.y][arrayIndexes.x] = selectedWorld;
 
-                                for (var x:int = 0; x < GAME_AREA_WIDTH; x++ ) {
-                                    for (var y:int = 0; y < GAME_AREA_HEIGHT; y++ ) {
-                                        var type1:Number = getWorldTypeAt(x, y);
-                                        var type2:Number = getWorldTypeAt(x + 1, y);
-                                        var type3:Number = getWorldTypeAt(x + 2, y);
-                                        var removedWorlds:Array = new Array();
-                                        // Horizontal
-                                        if (type1 == type2 && type1 == type3) {
-                                            var targetType:Number = getWorldTypeAt(x, y);
-                                            var offset:uint = 0;
-
-                                            while (x + offset < GAME_AREA_WIDTH && worldArray[y][x + offset].worldType == targetType) {
-                                                removedWorlds.push(worldArray[y][x + offset]);
-                                                offset++;
-                                            }
-                                        }
-
-                                        // Vertical
-                                        type1 = getWorldTypeAt(x, y);
-                                        type2 = getWorldTypeAt(x, y + 1);
-                                        type3 = getWorldTypeAt(x, y + 2);
-                                        if (type1 == type2 && type1 == type3) {
-                                            targetType = getWorldTypeAt(x, y);
-                                            offset = 0;
-
-                                            while (y + offset < GAME_AREA_HEIGHT && worldArray[y + offset][x].worldType == targetType) {
-                                                removedWorlds.push(worldArray[y + offset][x]);
-                                                offset++;
-                                            }
-                                        }
-                                        for (var idx:uint = 0; idx < removedWorlds.length; idx++ ) {
-                                            removedWorlds[idx].dieAndBornAnew();
-                                        }
-                                    }
-                                }
+                                checkMatches();
                             }
                         } else {
                             world.highlight();
@@ -143,6 +113,50 @@ package
             return worldArray[y][x];
         }
 
+        private function checkMatches():void
+        {
+
+
+            for (var x:int = 0; x < GAME_AREA_WIDTH; x++ ) {
+                for (var y:int = 0; y < GAME_AREA_HEIGHT; y++ ) {
+                    var type1:Number = getWorldTypeAt(x, y);
+                    var type2:Number = getWorldTypeAt(x + 1, y);
+                    var type3:Number = getWorldTypeAt(x + 2, y);
+                    var removedWorlds:Array = new Array();
+                    // Horizontal
+                    if (type1 == type2 && type1 == type3) {
+                        var targetType:Number = getWorldTypeAt(x, y);
+                        var offset:uint = 0;
+
+                        while (x + offset < GAME_AREA_WIDTH && worldArray[y][x + offset].worldType == targetType) {
+                            removedWorlds.push(worldArray[y][x + offset]);
+                            offset++;
+                        }
+                    }
+
+                    // Vertical
+                    type1 = getWorldTypeAt(x, y);
+                    type2 = getWorldTypeAt(x, y + 1);
+                    type3 = getWorldTypeAt(x, y + 2);
+                    if (type1 == type2 && type1 == type3) {
+                        targetType = getWorldTypeAt(x, y);
+                        offset = 0;
+
+                        while (y + offset < GAME_AREA_HEIGHT && worldArray[y + offset][x].worldType == targetType) {
+                            removedWorlds.push(worldArray[y + offset][x]);
+                            offset++;
+                        }
+                    }
+
+                    for (var idx:uint = 0; idx < removedWorlds.length; idx++ ) {
+                        removedWorlds[idx].dieAndBornAnew();
+                        animatedRef = removedWorlds[0];
+                        animationRunning = true;
+                    }
+
+                }
+            }
+        }
     }
 
 }

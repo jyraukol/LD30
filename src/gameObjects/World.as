@@ -58,7 +58,6 @@ package gameObjects
         public function checkClick():Boolean
         {
             if (overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y))) {
-                trace("World clicked at " + FlxG.mouse.x + " " + FlxG.mouse.y);
                 return true;
             }
             return false;

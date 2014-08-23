@@ -1,3 +1,9 @@
-- Worlds both in horizontal and vertical match, vertical doesn't clear, FIXED
-- Check that you don't create new matches from newly spawned worlds
+- Worlds both in horizontal and vertical match, vertical doesn't clear, DONE
+- Check that you don't create new matches from newly spawned worlds / Clear possible created matches too...
+- Moving worlds
 - Lock input when animations play
+- Refactoring
+- Graphics
+- Sounds
+- Menus
+- Keyboard (pad?) input
