@@ -137,8 +137,6 @@ package gameObjects
             } else if (target.x > x) {
                 movingTo = RIGHT;
             }
-            trace("Movetarget x " + moveTarget.x);
-            trace("Movetarget y " + moveTarget.y);
             animationRunning = true;
         }
 

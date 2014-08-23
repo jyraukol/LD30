@@ -34,10 +34,15 @@ package gameObjects
 
                 } else {
                     needToCheckMatches = false;
-                    if (previouslySelectedWorld != null && currentlySelectedWorld != null) {
-                        moveWorlds(previouslySelectedWorld, currentlySelectedWorld);
+                    if (needToRevertLastSwap) {
+                        var world1Indexes:FlxPoint = coordinatesToArray(lastSwap[0].x, lastSwap[0].y);
+                        var world2Indexes:FlxPoint = coordinatesToArray(lastSwap[1].x, lastSwap[1].y);
+                        var world1:World = getWorldAt(world1Indexes.x, world1Indexes.y);
+                        var world2:World = getWorldAt(world2Indexes.x, world2Indexes.y);
+                        moveWorlds(world1, world2);
                         previouslySelectedWorld = null;
                         currentlySelectedWorld = null;
+                        needToRevertLastSwap = false;
                     }
                 }
             }
@@ -173,9 +178,6 @@ package gameObjects
 
         private function checkSwap(world1:World, world2:World):void
         {
-            //lastSwap[0] = new FlxPoint(world1.x, world1.y);
-            //lastSwap[1] = new FlxPoint(world2.x, world2.y);
-
             moveWorlds(world1, world2);
             if (findMatchingWorlds().length == 0) {
                 needToRevertLastSwap = true;
@@ -188,8 +190,6 @@ package gameObjects
             lastSwap[1] = new FlxPoint(world2.x, world2.y);
             world1.moveTo(new FlxPoint(world2.x, world2.y));
             world2.moveTo(lastSwap[0]);
-            previouslySelectedWorld.removeHighlight();
-            world2.removeHighlight();
             var arrayIndexes:FlxPoint = coordinatesToArray(world2.moveTarget.x, world2.moveTarget.y);
             worldArray[arrayIndexes.y][arrayIndexes.x] = world2;
             arrayIndexes = coordinatesToArray(world1.moveTarget.x, world1.moveTarget.y);
