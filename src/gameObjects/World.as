@@ -25,8 +25,22 @@ package gameObjects
                 trace("World clicked at " + FlxG.mouse.x + " " + FlxG.mouse.y);
                 return true;
             }
-
             return false;
+        }
+
+        public function highlight():void
+        {
+            alpha = 0.5;
+        }
+
+        public function removeHighlight():void
+        {
+            alpha = 1;
+        }
+
+        public function checkSwap(otherWorld:World):Boolean
+        {
+            return true;
         }
 
     }
