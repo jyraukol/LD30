@@ -63,33 +63,25 @@ package
                                 worldArray[arrayIndexes.y][arrayIndexes.x] = world;
                                 arrayIndexes = coordinatesToArray(selectedWorld.x, selectedWorld.y);
                                 worldArray[arrayIndexes.y][arrayIndexes.x] = selectedWorld;
-                                // Do we have any matches?
-                                /*for (var x:int = 0; x < GAME_AREA_WIDTH; x++ ) {
-                                    for (var y:int = 0; y < GAME_AREA_HEIGHT; y++ ) {
-                                        if (x < GAME_AREA_WIDTH - 2 && getWorldAt(x, y).worldType == getWorldAt(x + 1, y).worldType == getWorldAt(x + 2, y).worldType) {
-                                            var targetType:uint = getWorldAt(x, y).worldType;
-                                            var offset:uint = 0;
-                                            while (getWorldAt(x + offset, y).worldType == targetType) {
-                                                trace("Removing world at x " + x + " y " + y);
-                                                offset++;
-                                            }
 
-                                        }
-                                    }
-                                }*/
                                 for (var x:int = 0; x < GAME_AREA_WIDTH; x++ ) {
                                     for (var y:int = 0; y < GAME_AREA_HEIGHT; y++ ) {
-                                        if (getWorldTypeAt(x, y) == getWorldTypeAt(x +1, y) && getWorldTypeAt(x, y) == getWorldTypeAt(x + 2, y)) {
-                                            var targetType:uint = getWorldTypeAt(x, y);
+                                        var type1:Number = getWorldTypeAt(x, y);
+                                        var type2:Number = getWorldTypeAt(x + 1, y);
+                                        var type3:Number = getWorldTypeAt(x + 2, y);
+                                        if (type1 == type2 && type1 == type3) {
+                                            var targetType:Number = getWorldTypeAt(x, y);
                                             var offset:uint = 0;
                                             var removedWorlds:Array = new Array();
-                                            while (worldArray[y][x + offset].worldType == targetType) {
+                                            while (x + offset < GAME_AREA_WIDTH && worldArray[y][x + offset].worldType == targetType) {
                                                 trace("Removing world at x " + x + " offset " + offset + " y " + y);
                                                 removedWorlds.push(worldArray[y][x + offset]);
+                                                worldArray[y][x + offset].worldType = -999;
                                                 offset++;
                                             }
                                             for (var idx:uint = 0; idx < removedWorlds.length; idx++ ) {
                                                 removedWorlds[idx].kill();
+
                                             }
                                         }
                                     }
@@ -122,10 +114,10 @@ package
         }
 
 
-        private function getWorldTypeAt(x:uint, y:uint):uint
+        private function getWorldTypeAt(x:uint, y:uint):Number
         {
             if (x < 0 || x >= GAME_AREA_WIDTH || y < 0 || y >= GAME_AREA_HEIGHT) {
-                return null;
+                return -999;
             }
             return getWorldAt(x, y).worldType;
         }
