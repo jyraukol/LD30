@@ -13,6 +13,9 @@ package gameObjects
         [Embed(source = "../../assets/gem4.png")] private var image4:Class;
         private var images:Array = new Array(image1, image2, image3, image4);
         public var worldType:uint;
+        private const VANISH_TIME:Number = 0.5;
+        private var resetWorld:Boolean = false;
+        private var growing:Boolean = false;
 
         public function World(x:int, y:int)
         {
@@ -20,6 +23,37 @@ package gameObjects
             var image:Class = Class(images[worldType]);
             super(x, y, image);
         }
+
+        private function createNewWorld():void
+        {
+            worldType = FlxG.random() * 4;
+            var image:Class = Class(images[worldType]);
+            loadGraphic(image);
+        }
+
+        override public function update():void
+        {
+            if (resetWorld) {
+                if (!growing) {
+                    scale.x -= FlxG.elapsed / VANISH_TIME;
+                    scale.y -= FlxG.elapsed / VANISH_TIME;
+                    if (scale.x < 0) {
+                        createNewWorld();
+                        growing = true;
+                    }
+                } else {
+                    scale.x += FlxG.elapsed / VANISH_TIME;
+                    scale.y += FlxG.elapsed / VANISH_TIME;
+                    if (scale.x > 1) {
+                        scale.make(1, 1);
+                        growing = false;
+                        resetWorld = false;
+                    }
+                }
+
+            }
+        }
+
 
         public function checkClick():Boolean
         {
@@ -43,6 +77,10 @@ package gameObjects
         public function checkSwap(otherWorld:World):Boolean
         {
             return true;
+        }
+
+        public function dieAndBornAnew():void {
+            resetWorld = true;
         }
 
     }

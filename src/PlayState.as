@@ -97,7 +97,7 @@ package
                                             }
                                         }
                                         for (var idx:uint = 0; idx < removedWorlds.length; idx++ ) {
-                                            removedWorlds[idx].kill();
+                                            removedWorlds[idx].dieAndBornAnew();
                                         }
                                     }
                                 }
