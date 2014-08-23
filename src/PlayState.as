@@ -1,5 +1,6 @@
 package
 {
+    import gameObjects.Person;
     import org.flixel.FlxG;
     import org.flixel.FlxGroup;
     import org.flixel.FlxSprite;
@@ -8,9 +9,7 @@ package
 
     public class PlayState extends FlxState
     {
-        private var TILE_WIDTH:uint = 40;
-        private var TILE_HEIGHT:uint = 40;
-        [Embed(source = "../assets/rectangle.png")] protected var ImgGrid:Class;
+        private var player:FlxSprite;
 
         public function PlayState()
         {
@@ -20,21 +19,33 @@ package
         override public function create():void
         {
             FlxG.bgColor = 0xff9C7D43;
-            trace("Playstate is running");
-            var boardWidth:uint = FlxG.width / TILE_WIDTH;
-            var boardHeight:uint = FlxG.height / TILE_HEIGHT;
-            trace(boardWidth);
-            trace(boardHeight);
-            var gridGroup:FlxGroup = new FlxGroup(boardWidth * boardHeight);
+            player = new FlxSprite(50, 50);
+            player.makeGraphic(12, 12, 0xffC0C0C0);
+            player.maxVelocity.make(80, 80);
+            player.drag.make(250, 250);
+            add(player);
+        }
 
-            for (var y:uint = 0; y < boardHeight; y++ ) {
-                for (var x:uint = 0; x < boardWidth; x++ ) {
-                    var grid:FlxSprite = new FlxSprite(x * TILE_WIDTH, y * TILE_HEIGHT, ImgGrid);
-                    //grid.makeGraphic(40, 40, 0xffFF0000);
-                    gridGroup.add(grid);
-                }
+        override public function update():void
+        {
+            player.acceleration.x = 0;
+            player.acceleration.y = 0;
+
+            if (FlxG.keys.LEFT) {
+                player.acceleration.x = -200;
             }
-            add(gridGroup);
+            if (FlxG.keys.RIGHT) {
+                player.acceleration.x = 200;
+            }
+
+            if (FlxG.keys.UP) {
+                player.acceleration.y = -200;
+            }
+            if (FlxG.keys.DOWN) {
+                player.acceleration.y = 200;
+            }
+
+            super.update();
         }
     }
 
