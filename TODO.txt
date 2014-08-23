@@ -1,0 +1,3 @@
+- Worlds both in horizontal and vertical match, vertical doesn't clear, FIXED
+- Check that you don't create new matches from newly spawned worlds
+- Lock input when animations play

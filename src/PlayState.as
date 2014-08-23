@@ -77,7 +77,6 @@ package
 
                                             while (x + offset < GAME_AREA_WIDTH && worldArray[y][x + offset].worldType == targetType) {
                                                 removedWorlds.push(worldArray[y][x + offset]);
-                                                worldArray[y][x + offset].worldType = -999;
                                                 offset++;
                                             }
                                         }
@@ -87,12 +86,11 @@ package
                                         type2 = getWorldTypeAt(x, y + 1);
                                         type3 = getWorldTypeAt(x, y + 2);
                                         if (type1 == type2 && type1 == type3) {
-                                            var targetType:Number = getWorldTypeAt(x, y);
-                                            var offset:uint = 0;
+                                            targetType = getWorldTypeAt(x, y);
+                                            offset = 0;
 
                                             while (y + offset < GAME_AREA_HEIGHT && worldArray[y + offset][x].worldType == targetType) {
                                                 removedWorlds.push(worldArray[y + offset][x]);
-                                                worldArray[y + offset][x].worldType = -999;
                                                 offset++;
                                             }
                                         }
