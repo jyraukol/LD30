@@ -69,20 +69,35 @@ package
                                         var type1:Number = getWorldTypeAt(x, y);
                                         var type2:Number = getWorldTypeAt(x + 1, y);
                                         var type3:Number = getWorldTypeAt(x + 2, y);
+                                        var removedWorlds:Array = new Array();
+                                        // Horizontal
                                         if (type1 == type2 && type1 == type3) {
                                             var targetType:Number = getWorldTypeAt(x, y);
                                             var offset:uint = 0;
-                                            var removedWorlds:Array = new Array();
+
                                             while (x + offset < GAME_AREA_WIDTH && worldArray[y][x + offset].worldType == targetType) {
-                                                trace("Removing world at x " + x + " offset " + offset + " y " + y);
                                                 removedWorlds.push(worldArray[y][x + offset]);
                                                 worldArray[y][x + offset].worldType = -999;
                                                 offset++;
                                             }
-                                            for (var idx:uint = 0; idx < removedWorlds.length; idx++ ) {
-                                                removedWorlds[idx].kill();
+                                        }
 
+                                        // Vertical
+                                        type1 = getWorldTypeAt(x, y);
+                                        type2 = getWorldTypeAt(x, y + 1);
+                                        type3 = getWorldTypeAt(x, y + 2);
+                                        if (type1 == type2 && type1 == type3) {
+                                            var targetType:Number = getWorldTypeAt(x, y);
+                                            var offset:uint = 0;
+
+                                            while (y + offset < GAME_AREA_HEIGHT && worldArray[y + offset][x].worldType == targetType) {
+                                                removedWorlds.push(worldArray[y + offset][x]);
+                                                worldArray[y + offset][x].worldType = -999;
+                                                offset++;
                                             }
+                                        }
+                                        for (var idx:uint = 0; idx < removedWorlds.length; idx++ ) {
+                                            removedWorlds[idx].kill();
                                         }
                                     }
                                 }
