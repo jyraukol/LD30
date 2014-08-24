@@ -23,7 +23,8 @@ package
 
         private var gameBoard:Board = new Board();
         public var selector:Frame = new Frame();
-        private var score:int = 0;
+        private var score:int = 970;
+        private var addTimeLimit:int = 1000;
         private var scoreText:FlxText;
         private var worldArray:Array = new Array();
         private var gameTimeLeft:Number = 120;
@@ -69,7 +70,15 @@ package
         public function addScore(value:int):void
         {
             score += value;
-            scoreText.text ="Score: " + score;
+            scoreText.text = "Score: " + score;
+            if (score >= addTimeLimit) {
+                addGameTime(5);
+                addTimeLimit += addTimeLimit;
+            }
+        }
+
+        public function addGameTime(seconds:int):void {
+            gameTimeLeft += seconds;
         }
 
         private function calculateGameTime():void

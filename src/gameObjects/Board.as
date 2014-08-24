@@ -6,10 +6,10 @@ package gameObjects
 
     public class Board
     {
-        private const MARGIN_TOP:int = 80;
+        private const MARGIN_TOP:int = 70;
         private const MARGIN_LEFT:int = 60;
         private const GAME_AREA_WIDTH:int = 8;
-        private const GAME_AREA_HEIGHT:int = 5;
+        private const GAME_AREA_HEIGHT:int = 6;
         private const WORLD_SIZE:int = 64;
         private const spacingX:int = 4;
         private const spacingY:int = 4;
