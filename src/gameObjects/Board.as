@@ -21,6 +21,7 @@ package gameObjects
         private var needToCheckMatches:Boolean = true;
         private var needToRevertLastSwap:Boolean = false;
         private var lastSwap:Array = new Array();
+        private var runningCombo:int = 1;
 
         public function Board()
         {
@@ -34,9 +35,11 @@ package gameObjects
                     for (var i:int = 0; i < matches.length; i++ ) {
                         matches[i].dieAndBornAnew();
                     }
-
+                    gameState.addScore(10 * matches.length * runningCombo);
+                    runningCombo++;
                 } else {
                     needToCheckMatches = false;
+                    runningCombo = 1;
                     if (needToRevertLastSwap) {
                         var world1Indexes:FlxPoint = coordinatesToArray(lastSwap[0].x, lastSwap[0].y);
                         var world2Indexes:FlxPoint = coordinatesToArray(lastSwap[1].x, lastSwap[1].y);
@@ -113,16 +116,8 @@ package gameObjects
             if (!gemClicked && previouslySelectedWorld != null) {
                 previouslySelectedWorld.removeHighlight();
                 previouslySelectedWorld = null;
+                gameState.selector.hide();
             }
-        }
-
-        public function checkMatches():void
-        {
-            var matches:Array = findMatchingWorlds();
-            for (var i:int = 0; i < matches.length; i++ ) {
-                matches[i].dieAndBornAnew();
-            }
-
         }
 
         private function coordinatesToArray(x:uint, y:uint):FlxPoint

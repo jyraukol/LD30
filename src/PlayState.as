@@ -4,6 +4,7 @@ package
     import gameObjects.Frame;
     import gameObjects.World;
     import org.flixel.FlxPoint;
+    import org.flixel.FlxText;
 
     import org.flixel.FlxG;
     import org.flixel.FlxSprite;
@@ -22,7 +23,8 @@ package
 
         private var gameBoard:Board = new Board();
         public var selector:Frame = new Frame();
-
+        private var score:int = 0;
+        private var scoreText:FlxText;
         private var worldArray:Array = new Array();
 
         public function PlayState()
@@ -35,6 +37,9 @@ package
             add(selector);
             var topBackground:FlxSprite = new FlxSprite(0, 0, topBackgroundImage);
             add(topBackground);
+            scoreText = new FlxText(20, 10, 200, "Score: " + score);
+            scoreText.size = 14;
+            add(scoreText);
         }
 
         override public function update():void
@@ -48,6 +53,12 @@ package
                 }
             }
             super.update();
+        }
+
+        public function addScore(value:int):void
+        {
+            score += value;
+            scoreText.text ="Score: " + score;
         }
     }
 
