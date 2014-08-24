@@ -14,7 +14,6 @@ package
         public function Main() {
             Registry.loadScores();
             super(640, 520, MenuState, 1);
-            forceDebugger = true;
             FlxG.mouse.show();
             music = new FlxSound();
             music.volume = 1;

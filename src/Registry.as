@@ -23,7 +23,7 @@ package
             highScores = new FlxSave();
             highScores.bind("scores");
             if (highScores.data.scores == null) {
-                highScores.data.scores = new Array();
+                highScores.data.scores = 0;
             }
         }
 
