@@ -183,7 +183,8 @@ package gameObjects
         {
             var world1Index:FlxPoint = coordinatesToArray(world1.x, world1.y);
             var world2Index:FlxPoint = coordinatesToArray(world2.x, world2.y);
-            if (Math.abs(world1Index.x - world2Index.x) > 1 || Math.abs(world1Index.y - world2Index.y) > 1) {
+            if (Math.abs(world1Index.x - world2Index.x) > 1 || Math.abs(world1Index.y - world2Index.y) > 1
+                || (Math.abs(world1Index.x - world2Index.x) == 1 && Math.abs(world1Index.y - world2Index.y) == 1)) {
                 FlxG.shake(0.02,0.3);
             } else {
                 moveWorlds(world1, world2);
