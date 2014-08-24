@@ -20,6 +20,7 @@ package
 
         public function GameoverState()
         {
+            add(new FlxSprite(0, 0, Registry.backGroundImage));
             add(new FlxSprite(70, 60, gameOverText));
             scoreSprite = new FlxSprite(170, 160, scoreText);
             add(scoreSprite);

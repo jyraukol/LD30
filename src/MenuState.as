@@ -17,6 +17,7 @@ package
 
         public function MenuState()
         {
+            add(new FlxSprite(0, 0, Registry.backGroundImage));
             startGame = new FlxSprite(220, 220, startGameTextImage);
             instructions = new FlxSprite(220, 280, instructionsTextImage);
             add(new FlxSprite(10, 60, titleTextImage));

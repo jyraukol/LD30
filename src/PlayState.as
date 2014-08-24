@@ -38,6 +38,7 @@ package
 
         override public function create():void
         {
+            add(new FlxSprite(0, 0, Registry.backGroundImage));
             Registry.playTime = gameTimeLeft;
             gameBoard.initBoard(this);
             add(selector);
