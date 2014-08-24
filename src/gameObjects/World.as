@@ -15,13 +15,13 @@ package gameObjects
         [Embed(source = "../../assets/p6.png")] private var image6:Class;
         private var images:Array = new Array(image1, image2, image3, image4, image5, image6);
         public var worldType:int;
-        private const VANISH_TIME:Number = 0.5;
+        private const VANISH_TIME:Number = 0.2;
         private var resetWorld:Boolean = false;
         private var growing:Boolean = false;
         public var animationRunning:Boolean = false;
         public var moveTarget:FlxPoint;
         private var movingTo:int;
-        private const MOVE_SPEED:int = 100;
+        private const MOVE_SPEED:int = 200;
         public static const UP:int = 0;
         public static const RIGHT:int = 1;
         public static const DOWN:int = 2;

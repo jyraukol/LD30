@@ -15,7 +15,7 @@ package gameObjects
         private const spacingY:int = 4;
 
         private var worldArray:Array = new Array();
-        private var gameState:FlxState;
+        private var gameState:PlayState;
         private var previouslySelectedWorld:World = null;
         private var currentlySelectedWorld:World = null;
         private var needToCheckMatches:Boolean = true;
@@ -52,7 +52,7 @@ package gameObjects
         }
 
 
-        public function initBoard(gameState:FlxState):void {
+        public function initBoard(gameState:PlayState):void {
             this.gameState = gameState;
 
             for (var y:int = 0; y < GAME_AREA_HEIGHT; y++ ) {
@@ -84,11 +84,20 @@ package gameObjects
                 for (var x:int = 0; x < worldArray[y].length; x++ ) {
                     var world:World = worldArray[y][x];
                     if (world.checkClick()) {
+                        gameState.selector.x = world.x;
+                        gameState.selector.y = world.y;
                         // Two worlds selected
                         if (previouslySelectedWorld != null) {
+                            if (previouslySelectedWorld == world) {
+                                previouslySelectedWorld.removeHighlight();
+                                previouslySelectedWorld = null;
+                                gameState.selector.hide();
+                                break;
+                            }
                             currentlySelectedWorld = world;
                             checkSwap(previouslySelectedWorld, currentlySelectedWorld)
                             needToCheckMatches = true;
+                            gameState.selector.hide();
                             break;
                         } else {
                             world.highlight();

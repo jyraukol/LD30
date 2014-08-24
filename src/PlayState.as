@@ -1,7 +1,7 @@
 package
 {
-    import flash.utils.getTimer;
     import gameObjects.Board;
+    import gameObjects.Frame;
     import gameObjects.World;
     import org.flixel.FlxPoint;
 
@@ -19,9 +19,9 @@ package
         private const WORLD_SIZE:int = 64;
 
         private var gameBoard:Board = new Board();
+        public var selector:Frame = new Frame();
 
         private var worldArray:Array = new Array();
-        private var checkMatchTimer:int;
 
         public function PlayState()
         {
@@ -29,8 +29,8 @@ package
 
         override public function create():void
         {
-            checkMatchTimer = getTimer() + 1000;
             gameBoard.initBoard(this);
+            add(selector);
         }
 
         override public function update():void
@@ -39,11 +39,6 @@ package
 
             gameBoard.update();
             if (!worldsAnimated) {
-                if (checkMatchTimer > getTimer()) {
-                    //gameBoard.checkMatches();
-                    checkMatchTimer += 1000;
-                }
-
                 if (FlxG.mouse.justPressed()) {
                     gameBoard.checkMouseClick();
                 }
