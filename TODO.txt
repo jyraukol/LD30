@@ -6,6 +6,7 @@
 - Sounds
 - Keyboard (pad?) input
 - Faster vanishing after long combos?
+- Local highscores possible with FlxSave?
 - Worlds both in horizontal and vertical match, vertical doesn't clear, DONE
 - Check that you don't create new matches from newly spawned worlds / Clear possible created matches too..., option 2 DONE
 - Moving worlds, DONE
