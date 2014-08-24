@@ -1,12 +1,12 @@
-- MenuState, GameOverState!
 - Situations where there are no moves to be made can happen, kinda sucks
-- Hover over effect to planets
 - Refactoring
-- Graphics
 - Sounds
 - Keyboard (pad?) input
 - Faster vanishing after long combos?
-- Local highscores possible with FlxSave?
+- Hover over effect to planets, the effect is bad, but DONE!
+- MenuState, GameOverState! DONE!
+- Graphics, not pretty, but DONE!
+- Local highscores possible with FlxSave? It was, but did only the highest score and no initials, DONE
 - Worlds both in horizontal and vertical match, vertical doesn't clear, DONE
 - Check that you don't create new matches from newly spawned worlds / Clear possible created matches too..., option 2 DONE
 - Moving worlds, DONE

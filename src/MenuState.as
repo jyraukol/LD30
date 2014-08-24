@@ -24,7 +24,7 @@ package
             add(startGame);
             add(instructions);
 
-            var highscore:FlxText = new FlxText(240, 400, 500, "Highscore " + Registry.highScores.data.scores);
+            var highscore:FlxText = new FlxText(236, 400, 500, "Highscore " + Registry.highScores.data.scores);
             highscore.size = 22;
             highscore..color = 0xffF0FBFF;
             add(highscore);

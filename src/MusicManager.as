@@ -23,16 +23,16 @@ package
         {
             switch (sound) {
                 case 1:
-                    FlxG.play(explosion1Sound);
+                    FlxG.play(explosion1Sound, 0.8);
                     break;
                 case 2:
-                    FlxG.play(matchSound);
+                    FlxG.play(matchSound, 0.4);
                     break;
                 case 3:
-                    FlxG.play(comboSound);
+                    FlxG.play(comboSound, 0.8);
                     break;
                 case 4:
-                    FlxG.play(gameOverSound);
+                    FlxG.play(gameOverSound, 0.8);
                     break;
             }
 

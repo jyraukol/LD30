@@ -99,7 +99,6 @@ package
             scoreText.text = "Score: " + score;
             if (score >= addTimeLimit) {
                 addGameTime(5);
-                trace("Gametime added");
                 addTimeLimit += 1000;
             }
         }
