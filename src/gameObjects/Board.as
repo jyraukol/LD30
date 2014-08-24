@@ -8,7 +8,7 @@ package gameObjects
     {
 
 
-        private const MARGIN_TOP:int = 70;
+        private const MARGIN_TOP:int = 90;
         private const MARGIN_LEFT:int = 60;
         private const GAME_AREA_WIDTH:int = 8;
         private const GAME_AREA_HEIGHT:int = 6;

@@ -4,7 +4,7 @@ package
     import org.flixel.FlxSound;
     import org.flixel.FlxG;
 
-	[SWF(width = "640", height = "480", backgroundColor = "#000000")]
+	[SWF(width = "640", height = "520", backgroundColor = "#000000")]
 
 	public class Main extends FlxGame
 	{
@@ -13,7 +13,7 @@ package
 
         public function Main() {
             Registry.loadScores();
-            super(640, 480, MenuState, 1);
+            super(640, 520, MenuState, 1);
             forceDebugger = true;
             FlxG.mouse.show();
             music = new FlxSound();
