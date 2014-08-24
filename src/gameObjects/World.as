@@ -98,6 +98,11 @@ package gameObjects
                     }
                 }
             }
+            if (overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y))) {
+                    alpha = 0.5;
+                } else {
+                    alpha = 1;
+                }
         }
 
         public function checkClick():Boolean
