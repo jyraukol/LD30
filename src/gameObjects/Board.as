@@ -6,7 +6,7 @@ package gameObjects
 
     public class Board
     {
-        [Embed(source="../../assets/sfx/explosion1.mp3")] private var explosion1Sound:Class;
+
 
         private const MARGIN_TOP:int = 70;
         private const MARGIN_LEFT:int = 60;
@@ -38,10 +38,14 @@ package gameObjects
                 if (matches.length > 0) {
                     for (var i:int = 0; i < matches.length; i++ ) {
                         matches[i].dieAndBornAnew();
+                        MusicManager.playSound(MusicManager.MATCH);
                     }
                     gameState.addScore(10 * matches.length * (runningCombo + 1));
                     runningCombo++;
                     comboTimer = comboTimeLimit;
+                    if (runningCombo > 5) {
+                        MusicManager.playSound(MusicManager.COMBO);
+                    }
                 } else {
                     needToCheckMatches = false;
                     if (needToRevertLastSwap) {
@@ -200,7 +204,7 @@ package gameObjects
             if (Math.abs(world1Index.x - world2Index.x) > 1 || Math.abs(world1Index.y - world2Index.y) > 1
                 || (Math.abs(world1Index.x - world2Index.x) == 1 && Math.abs(world1Index.y - world2Index.y) == 1)) {
                 FlxG.shake(0.02, 0.3);
-                FlxG.play(explosion1Sound);
+                MusicManager.playSound(MusicManager.EXPLOSION);
             } else {
                 moveWorlds(world1, world2);
                 if (findMatchingWorlds().length == 0) {
