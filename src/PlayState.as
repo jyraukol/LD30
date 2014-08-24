@@ -1,7 +1,7 @@
 package
 {
     import gameObjects.Board;
-    import gameObjects.Frame;
+    import gameObjects.Selector;
     import gameObjects.World;
     import org.flixel.FlxPoint;
     import org.flixel.FlxText;
@@ -22,8 +22,8 @@ package
         private const WORLD_SIZE:int = 64;
 
         private var gameBoard:Board = new Board();
-        public var selector:Frame = new Frame();
-        private var score:int = 970;
+        public var selector:Selector = new Selector();
+        private var score:int = 0;
         private var addTimeLimit:int = 1000;
         private var scoreText:FlxText;
         private var worldArray:Array = new Array();
@@ -63,6 +63,7 @@ package
             calculateGameTime();
             if (gameTimeLeft < 0) {
                 gameOver = true;
+                FlxG.switchState(new GameoverState());
             }
             super.update();
         }

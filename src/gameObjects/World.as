@@ -21,7 +21,7 @@ package gameObjects
         public var animationRunning:Boolean = false;
         public var moveTarget:FlxPoint;
         private var movingTo:int;
-        private const MOVE_SPEED:int = 200;
+        private const MOVE_SPEED:int = 300;
         public static const UP:int = 0;
         public static const RIGHT:int = 1;
         public static const DOWN:int = 2;
@@ -99,7 +99,6 @@ package gameObjects
                 }
             }
         }
-
 
         public function checkClick():Boolean
         {

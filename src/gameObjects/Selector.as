@@ -2,12 +2,12 @@ package gameObjects
 {
     import org.flixel.FlxSprite;
 
-    public class Frame extends FlxSprite
+    public class Selector extends FlxSprite
     {
         private const SIZE:int = 64;
         [Embed(source = "../../assets/selector.png")] private var image:Class;
 
-        public function Frame()
+        public function Selector()
         {
             super( -100, -100, image);
         }
