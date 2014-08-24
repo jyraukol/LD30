@@ -11,6 +11,8 @@ package gameObjects
         private const GAME_AREA_WIDTH:int = 8;
         private const GAME_AREA_HEIGHT:int = 5;
         private const WORLD_SIZE:int = 64;
+        private const spacingX:int = 4;
+        private const spacingY:int = 4;
 
         private var worldArray:Array = new Array();
         private var gameState:FlxState;
@@ -57,7 +59,7 @@ package gameObjects
                 worldArray[y] = new Array();
                 var array:Array = worldArray[y];
                 for (var x:int = 0; x < GAME_AREA_WIDTH; x++ ) {
-                    var world:World = new World(MARGIN_LEFT + x * WORLD_SIZE, MARGIN_TOP + y * WORLD_SIZE);
+                    var world:World = new World(MARGIN_LEFT + x * WORLD_SIZE + x * spacingX, MARGIN_TOP + y * WORLD_SIZE + spacingY * y);
                     array.push(world);
                     gameState.add(world);
                 }
