@@ -79,6 +79,7 @@ package
             calculateGameTime();
             if (gameTimeLeft < 0) {
                 gameOver = true;
+                MusicManager.playSound(MusicManager.GAME_OVER);
                 FlxG.switchState(new GameoverState());
             }
             super.update();

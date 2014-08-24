@@ -7,10 +7,12 @@ package
         [Embed(source = "../assets/sfx/explosion1.mp3")] private static var explosion1Sound:Class;
         [Embed(source = "../assets/sfx/match.mp3")] private static var matchSound:Class;
         [Embed(source = "../assets/sfx/combo.mp3")] private static var comboSound:Class;
+        [Embed(source = "../assets/sfx/gameOver.mp3")] private static var gameOverSound:Class;
 
         public static const EXPLOSION:int = 1;
         public static const MATCH:int = 2;
         public static const COMBO:int = 3;
+        public static const GAME_OVER:int = 4;
 
         public function MusicManager()
         {
@@ -28,6 +30,9 @@ package
                     break;
                 case 3:
                     FlxG.play(comboSound);
+                    break;
+                case 4:
+                    FlxG.play(gameOverSound);
                     break;
             }
 
