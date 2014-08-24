@@ -1,6 +1,7 @@
 package
 {
     import org.flixel.FlxG;
+    import org.flixel.FlxSave;
     import org.flixel.FlxState;
 
     public class Registry
@@ -11,9 +12,19 @@ package
         public static var playTime:int = 0;
         public static var fadeInProgress:Boolean = false;
 
+        public static var highScores:FlxSave;
+
         public function Registry()
         {
+        }
 
+        public static function loadScores():void
+        {
+            highScores = new FlxSave();
+            highScores.bind("scores");
+            if (highScores.data.scores == null) {
+                highScores.data.scores = new Array();
+            }
         }
 
         public static function fadeDone():void

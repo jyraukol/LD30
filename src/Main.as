@@ -12,6 +12,7 @@ package
         private var music:FlxSound;
 
         public function Main() {
+            Registry.loadScores();
             super(640, 480, MenuState, 1);
             forceDebugger = true;
             FlxG.mouse.show();

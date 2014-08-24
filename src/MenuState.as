@@ -23,6 +23,8 @@ package
             add(new FlxSprite(10, 60, titleTextImage));
             add(startGame);
             add(instructions);
+
+            add(new FlxText(300, 400, 100, "Highscore " + Registry.highScores.data.scores));
         }
 
         override public function create():void

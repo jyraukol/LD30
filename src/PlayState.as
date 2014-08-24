@@ -87,6 +87,9 @@ package
                     MusicManager.playSound(MusicManager.GAME_OVER);
                     Registry.score = score;
                     Registry.fadeInProgress = true;
+                    if (Registry.highScores.data.scores < score) {
+                        Registry.highScores.data.scores = score;
+                    }
                     FlxG.fade(0xff000000, 1, Registry.loadEndState);
                 }
                 super.update();
