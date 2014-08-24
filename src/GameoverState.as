@@ -68,7 +68,8 @@ package
 
 
                 if (FlxG.mouse.justPressed()) {
-                    FlxG.switchState(new MenuState());
+                    Registry.fadeInProgress = true;
+                    FlxG.fade(0xff000000, 1, Registry.loadMenuState);
                 }
                 super.update();
             }

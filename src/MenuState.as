@@ -25,20 +25,29 @@ package
             add(instructions);
         }
 
+        override public function create():void
+        {
+            if (Registry.fadeInProgress) {
+                FlxG.flash(0xff000000, 1, Registry.fadeDone);
+            }
+        }
+
         override public function update():void
         {
-            if (startGame.overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y))) {
-                startGame.color = 0xaaEC7600;
-                if (FlxG.mouse.justPressed()) {
-                    FlxG.fade(0xff000000, 1, loadPlayState);
+            if (!Registry.fadeInProgress) {
+                if (startGame.overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y))) {
+                    startGame.color = 0xaaEC7600;
+                    if (FlxG.mouse.justPressed()) {
+                        FlxG.fade(0xff000000, 1, loadPlayState);
+                    }
+                } else if (instructions.overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y))) {
+                    instructions.color = 0xaaEC7600;
+                } else {
+                    startGame.color = 0xFFFFFFFF;
+                    instructions.color = 0xFFFFFFFF;
                 }
-            } else if (instructions.overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y))) {
-                instructions.color = 0xaaEC7600;
-            } else {
-                startGame.color = 0xFFFFFFFF;
-                instructions.color = 0xFFFFFFFF;
+                super.update();
             }
-            super.update();
         }
 
         private function loadPlayState():void {

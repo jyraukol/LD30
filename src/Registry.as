@@ -1,6 +1,7 @@
 package
 {
     import org.flixel.FlxG;
+    import org.flixel.FlxState;
 
     public class Registry
     {
@@ -23,6 +24,11 @@ package
         public static function loadEndState():void
         {
             FlxG.switchState(new GameoverState());
+        }
+
+        public static function loadMenuState():void
+        {
+            FlxG.switchState(new MenuState());
         }
 
     }
