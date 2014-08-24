@@ -57,8 +57,9 @@ package
             add(gameTimeLeftText);
             calculateGameTime();
 
-            comboText = new FlxText(260, 10, 100, "1X Combo!");
-            comboText.size = 14;
+            comboText = new FlxText(260, 10, 200, "1X Combo!");
+            comboText.size = 16;
+            comboText.color = 0xffFF8040;
             comboText.visible = false;
             add(comboText);
         }
