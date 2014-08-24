@@ -1,11 +1,9 @@
-- Scoring
-- Timer
-- Texts for score, time
+- MenuState, GameOverState!
+- Situations where there are no moves to be made can happen, kinda sucks
 - Hover over effect to planets
 - Refactoring
 - Graphics
 - Sounds
-- Menus
 - Keyboard (pad?) input
 - Faster vanishing after long combos?
 - Worlds both in horizontal and vertical match, vertical doesn't clear, DONE
@@ -15,3 +13,6 @@
 - Need to check for valid moves, DONE
 - Revert a swap if it made no matches, DONE
 - Choosing the same planet again crashes the game, FIXED
+- Scoring, DONE
+- Timer, DONE
+- Texts for score, time, DONE

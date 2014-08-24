@@ -6,13 +6,16 @@ package gameObjects
 
     public class Board
     {
+        [Embed(source="../../assets/sfx/explosion1.mp3")] private var explosion1Sound:Class;
+
         private const MARGIN_TOP:int = 70;
         private const MARGIN_LEFT:int = 60;
         private const GAME_AREA_WIDTH:int = 8;
         private const GAME_AREA_HEIGHT:int = 6;
         private const WORLD_SIZE:int = 64;
-        private const spacingX:int = 4;
-        private const spacingY:int = 4;
+        private const SPACING_X:int = 4;
+        private const SPACING_Y:int = 4;
+        private const comboTimeLimit:int = 2;
 
         private var worldArray:Array = new Array();
         private var gameState:PlayState;
@@ -38,7 +41,7 @@ package gameObjects
                     }
                     gameState.addScore(10 * matches.length * (runningCombo + 1));
                     runningCombo++;
-                    comboTimer = 2;
+                    comboTimer = comboTimeLimit;
                 } else {
                     needToCheckMatches = false;
                     if (needToRevertLastSwap) {
@@ -69,7 +72,7 @@ package gameObjects
                 worldArray[y] = new Array();
                 var array:Array = worldArray[y];
                 for (var x:int = 0; x < GAME_AREA_WIDTH; x++ ) {
-                    var world:World = new World(MARGIN_LEFT + x * WORLD_SIZE + x * spacingX, MARGIN_TOP + y * WORLD_SIZE + spacingY * y);
+                    var world:World = new World(MARGIN_LEFT + x * WORLD_SIZE + x * SPACING_X, MARGIN_TOP + y * WORLD_SIZE + SPACING_Y * y);
                     array.push(world);
                     gameState.add(world);
                 }
@@ -196,7 +199,8 @@ package gameObjects
             var world2Index:FlxPoint = coordinatesToArray(world2.x, world2.y);
             if (Math.abs(world1Index.x - world2Index.x) > 1 || Math.abs(world1Index.y - world2Index.y) > 1
                 || (Math.abs(world1Index.x - world2Index.x) == 1 && Math.abs(world1Index.y - world2Index.y) == 1)) {
-                FlxG.shake(0.02,0.3);
+                FlxG.shake(0.02, 0.3);
+                FlxG.play(explosion1Sound);
             } else {
                 moveWorlds(world1, world2);
                 if (findMatchingWorlds().length == 0) {
