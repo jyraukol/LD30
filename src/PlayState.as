@@ -30,6 +30,7 @@ package
         private var gameTimeLeft:Number = 120;
         private var gameTimeLeftText:FlxText;
         private var gameOver:Boolean = false;
+        private var comboText:FlxText;
 
         public function PlayState()
         {
@@ -41,12 +42,19 @@ package
             add(selector);
             var topBackground:FlxSprite = new FlxSprite(0, 0, topBackgroundImage);
             add(topBackground);
+
             scoreText = new FlxText(20, 10, 200, "Score: " + score);
             scoreText.size = 14;
             add(scoreText);
+
             gameTimeLeftText = new FlxText(500, 10, 100, "Time: " + gameTimeLeft);
             gameTimeLeftText.size = 14;
             add(gameTimeLeftText);
+
+            comboText = new FlxText(260, 10, 100, "1X Combo!");
+            comboText.size = 14;
+            comboText.visible = false;
+            add(comboText);
         }
 
         override public function update():void
@@ -59,6 +67,14 @@ package
                     gameBoard.checkMouseClick();
                 }
             }
+
+            if (gameBoard.getRunningCombo() > 1) {
+                comboText.text = gameBoard.getRunningCombo() + "X Combo!";
+                comboText.visible = true;
+            } else {
+                comboText.visible = false;
+            }
+
             gameTimeLeft -= FlxG.elapsed;
             calculateGameTime();
             if (gameTimeLeft < 0) {

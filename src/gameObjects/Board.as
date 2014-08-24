@@ -21,7 +21,8 @@ package gameObjects
         private var needToCheckMatches:Boolean = true;
         private var needToRevertLastSwap:Boolean = false;
         private var lastSwap:Array = new Array();
-        private var runningCombo:int = 1;
+        private var comboTimer:Number = 0;
+        private var runningCombo:int = 0;
 
         public function Board()
         {
@@ -35,11 +36,11 @@ package gameObjects
                     for (var i:int = 0; i < matches.length; i++ ) {
                         matches[i].dieAndBornAnew();
                     }
-                    gameState.addScore(10 * matches.length * runningCombo);
+                    gameState.addScore(10 * matches.length * (runningCombo + 1));
                     runningCombo++;
+                    comboTimer = 2;
                 } else {
                     needToCheckMatches = false;
-                    runningCombo = 1;
                     if (needToRevertLastSwap) {
                         var world1Indexes:FlxPoint = coordinatesToArray(lastSwap[0].x, lastSwap[0].y);
                         var world2Indexes:FlxPoint = coordinatesToArray(lastSwap[1].x, lastSwap[1].y);
@@ -50,6 +51,12 @@ package gameObjects
                         currentlySelectedWorld = null;
                         needToRevertLastSwap = false;
                     }
+                }
+            }
+            if (comboTimer > 0) {
+                comboTimer -= FlxG.elapsed;
+                if (comboTimer <= 0) {
+                    runningCombo = 0;
                 }
             }
         }
@@ -208,6 +215,11 @@ package gameObjects
             worldArray[arrayIndexes.y][arrayIndexes.x] = world2;
             arrayIndexes = coordinatesToArray(world1.moveTarget.x, world1.moveTarget.y);
             worldArray[arrayIndexes.y][arrayIndexes.x] = world1;
+        }
+
+        public function getRunningCombo():int
+        {
+            return runningCombo;
         }
     }
 }
