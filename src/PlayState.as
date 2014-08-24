@@ -14,6 +14,7 @@ package
     public class PlayState extends FlxState
     {
         [Embed(source = "../assets/topBackground.png")] private var topBackgroundImage:Class;
+        [Embed(source = "../assets/resetButton.png")] private var resetButtonImage:Class;
 
         private var gameBoard:Board = new Board();
         public var selector:Selector = new Selector();
@@ -25,6 +26,8 @@ package
         private var gameTimeLeftText:FlxText;
         private var gameOver:Boolean = false;
         private var comboText:FlxText;
+        private var resetButton:FlxSprite;
+        private var resetLimit:Number = 0;
 
         public function PlayState()
         {
@@ -56,6 +59,14 @@ package
             comboText.color = 0xffFF8040;
             comboText.visible = false;
             add(comboText);
+
+            resetButton = new FlxSprite(400, 10);
+            resetButton.loadGraphic(resetButtonImage, true, false, 40, 40);
+            resetButton.addAnimation("ready", [0], 0, false);
+            resetButton.addAnimation("reloading", [1], 0, false);
+            resetButton.play("ready");
+            add(resetButton);
+
         }
 
         override public function update():void
@@ -79,6 +90,15 @@ package
 
                 gameTimeLeft -= FlxG.elapsed;
                 calculateGameTime();
+                resetLimit -= FlxG.elapsed;
+                if (resetLimit <= 0) {
+                    resetButton.play("ready");
+                }
+                if (FlxG.mouse.justPressed()&& resetLimit <= 0 && resetButton.overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y))) {
+                    resetLimit = 30;
+                    resetButton.play("reloading");
+                    gameBoard.resetAllPlanets();
+                }
                 if (gameTimeLeft < 0 && !gameOver) {
                     gameOver = true;
                     MusicManager.playSound(MusicManager.GAME_OVER);

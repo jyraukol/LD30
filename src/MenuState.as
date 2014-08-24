@@ -59,7 +59,7 @@ package
                             instructionsBackground = new FlxSprite(80, 60);
                             instructionsBackground.makeGraphic(480, 400, 0xff000000);
                             add(instructionsBackground);
-                            instructionsText = new FlxText(100, 120, 450, "The universe is growing too rapidly and about to collapse!\n\nWith your mouse, connect 3 or more planets to clear them.\n\nYou have two minutes to save the universe!\n\nClear planets rapidly to gain a time bonus and extra points.");
+                            instructionsText = new FlxText(100, 80, 450, "The universe is growing too rapidly and about to collapse!\n\nWith your mouse, connect 3 or more planets to clear them.\n\nYou have two minutes to save the universe!\n\nClear planets rapidly to gain a time bonus and extra points.\n\nYou can reset the board every 30 seconds with the reset button.");
                             instructionsText.size = 20;
                             add(instructionsText);
 

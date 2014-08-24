@@ -230,6 +230,17 @@ package gameObjects
             worldArray[arrayIndexes.y][arrayIndexes.x] = world1;
         }
 
+        public function resetAllPlanets():void
+        {
+            for (var y:int = 0; y < worldArray.length; y++ ) {
+                for (var x:int = 0; x < worldArray[y].length; x++ ) {
+                    worldArray[y][x].dieAndBornAnew();
+                }
+            }
+            needToCheckMatches = true;
+        }
+
+
         public function getRunningCombo():int
         {
             return runningCombo;
