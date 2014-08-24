@@ -1,4 +1,5 @@
-- Choosing the same planet again crashes the game
+- Choosing the same planet again crashes the game, FIXED
+- Hover over effect to planets
 - Refactoring
 - Graphics
 - Sounds

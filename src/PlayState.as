@@ -12,6 +12,8 @@ package
 
     public class PlayState extends FlxState
     {
+        [Embed(source = "../assets/topBackground.png")] private var topBackgroundImage:Class;
+
         private const MARGIN_TOP:int = 80;
         private const MARGIN_LEFT:int = 60;
         private const GAME_AREA_WIDTH:int = 8;
@@ -31,6 +33,8 @@ package
         {
             gameBoard.initBoard(this);
             add(selector);
+            var topBackground:FlxSprite = new FlxSprite(0, 0, topBackgroundImage);
+            add(topBackground);
         }
 
         override public function update():void
