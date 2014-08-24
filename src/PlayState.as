@@ -27,7 +27,7 @@ package
         private var addTimeLimit:int = 1000;
         private var scoreText:FlxText;
         private var worldArray:Array = new Array();
-        private var gameTimeLeft:Number = 120;
+        private var gameTimeLeft:Number = 1;
         private var gameTimeLeftText:FlxText;
         private var gameOver:Boolean = false;
         private var comboText:FlxText;
@@ -38,6 +38,7 @@ package
 
         override public function create():void
         {
+            Registry.playTime = gameTimeLeft;
             gameBoard.initBoard(this);
             add(selector);
             var topBackground:FlxSprite = new FlxSprite(0, 0, topBackgroundImage);
@@ -80,6 +81,8 @@ package
             if (gameTimeLeft < 0) {
                 gameOver = true;
                 MusicManager.playSound(MusicManager.GAME_OVER);
+                Registry.score = score;
+
                 FlxG.switchState(new GameoverState());
             }
             super.update();
@@ -97,6 +100,7 @@ package
 
         public function addGameTime(seconds:int):void {
             gameTimeLeft += seconds;
+            Registry.playTime += seconds;
         }
 
         private function calculateGameTime():void

@@ -29,7 +29,7 @@ package gameObjects
 
         public function Board()
         {
-
+            Registry.longestCombo = 0;
         }
 
         public function update():void {
@@ -42,6 +42,11 @@ package gameObjects
                     }
                     gameState.addScore(10 * matches.length * (runningCombo + 1));
                     runningCombo++;
+
+                    if (Registry.longestCombo < runningCombo) {
+                        Registry.longestCombo = runningCombo;
+                    }
+
                     comboTimer = comboTimeLimit;
                     if (runningCombo > 5) {
                         MusicManager.playSound(MusicManager.COMBO);
