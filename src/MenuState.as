@@ -24,7 +24,10 @@ package
             add(startGame);
             add(instructions);
 
-            add(new FlxText(300, 400, 100, "Highscore " + Registry.highScores.data.scores));
+            var highscore:FlxText = new FlxText(240, 400, 500, "Highscore " + Registry.highScores.data.scores);
+            highscore.size = 22;
+            highscore..color = 0xffF0FBFF;
+            add(highscore);
         }
 
         override public function create():void

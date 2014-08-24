@@ -27,7 +27,7 @@ package
         private var addTimeLimit:int = 1000;
         private var scoreText:FlxText;
         private var worldArray:Array = new Array();
-        private var gameTimeLeft:Number = 10;
+        private var gameTimeLeft:Number = 120;
         private var gameTimeLeftText:FlxText;
         private var gameOver:Boolean = false;
         private var comboText:FlxText;
@@ -39,6 +39,7 @@ package
         override public function create():void
         {
             Registry.fadeInProgress = true;
+
             FlxG.flash(0xff000000, 1, Registry.fadeDone);
             add(new FlxSprite(0, 0, Registry.backGroundImage));
             Registry.playTime = gameTimeLeft;
@@ -54,6 +55,7 @@ package
             gameTimeLeftText = new FlxText(500, 10, 100, "Time: " + gameTimeLeft);
             gameTimeLeftText.size = 14;
             add(gameTimeLeftText);
+            calculateGameTime();
 
             comboText = new FlxText(260, 10, 100, "1X Combo!");
             comboText.size = 14;
