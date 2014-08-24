@@ -27,7 +27,7 @@ package
         private var addTimeLimit:int = 1000;
         private var scoreText:FlxText;
         private var worldArray:Array = new Array();
-        private var gameTimeLeft:Number = 1;
+        private var gameTimeLeft:Number = 10;
         private var gameTimeLeftText:FlxText;
         private var gameOver:Boolean = false;
         private var comboText:FlxText;
@@ -38,6 +38,8 @@ package
 
         override public function create():void
         {
+            Registry.fadeInProgress = true;
+            FlxG.flash(0xff000000, 1, Registry.fadeDone);
             add(new FlxSprite(0, 0, Registry.backGroundImage));
             Registry.playTime = gameTimeLeft;
             gameBoard.initBoard(this);
@@ -61,32 +63,33 @@ package
 
         override public function update():void
         {
-            var worldsAnimated:Boolean = gameBoard.animationRunning();
+            if (!Registry.fadeInProgress) {
+                var worldsAnimated:Boolean = gameBoard.animationRunning();
 
-            gameBoard.update();
-            if (!worldsAnimated) {
-                if (FlxG.mouse.justPressed()) {
-                    gameBoard.checkMouseClick();
+                gameBoard.update();
+                if (!worldsAnimated) {
+                    if (FlxG.mouse.justPressed()) {
+                        gameBoard.checkMouseClick();
+                    }
                 }
-            }
 
-            if (gameBoard.getRunningCombo() > 1) {
-                comboText.text = gameBoard.getRunningCombo() + "X Combo!";
-                comboText.visible = true;
-            } else {
-                comboText.visible = false;
-            }
+                if (gameBoard.getRunningCombo() > 1) {
+                    comboText.text = gameBoard.getRunningCombo() + "X Combo!";
+                    comboText.visible = true;
+                } else {
+                    comboText.visible = false;
+                }
 
-            gameTimeLeft -= FlxG.elapsed;
-            calculateGameTime();
-            if (gameTimeLeft < 0) {
-                gameOver = true;
-                MusicManager.playSound(MusicManager.GAME_OVER);
-                Registry.score = score;
-
-                FlxG.switchState(new GameoverState());
+                gameTimeLeft -= FlxG.elapsed;
+                calculateGameTime();
+                if (gameTimeLeft < 0 && !gameOver) {
+                    gameOver = true;
+                    MusicManager.playSound(MusicManager.GAME_OVER);
+                    Registry.score = score;
+                    FlxG.fade(0xff000000, 1, Registry.loadEndState);
+                }
+                super.update();
             }
-            super.update();
         }
 
         public function addScore(value:int):void

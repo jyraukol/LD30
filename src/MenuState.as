@@ -30,7 +30,7 @@ package
             if (startGame.overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y))) {
                 startGame.color = 0xaaEC7600;
                 if (FlxG.mouse.justPressed()) {
-                    FlxG.switchState(new PlayState());
+                    FlxG.fade(0xff000000, 1, loadPlayState);
                 }
             } else if (instructions.overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y))) {
                 instructions.color = 0xaaEC7600;
@@ -39,6 +39,10 @@ package
                 instructions.color = 0xFFFFFFFF;
             }
             super.update();
+        }
+
+        private function loadPlayState():void {
+            FlxG.switchState(new PlayState());
         }
 
     }

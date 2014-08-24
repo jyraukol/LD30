@@ -1,5 +1,6 @@
 package
 {
+    import org.flixel.FlxG;
 
     public class Registry
     {
@@ -7,10 +8,21 @@ package
         public static var score:int = 0;
         public static var longestCombo:int = 0;
         public static var playTime:int = 0;
+        public static var fadeInProgress:Boolean = false;
 
         public function Registry()
         {
 
+        }
+
+        public static function fadeDone():void
+        {
+            Registry.fadeInProgress = false;
+        }
+
+        public static function loadEndState():void
+        {
+            FlxG.switchState(new GameoverState());
         }
 
     }

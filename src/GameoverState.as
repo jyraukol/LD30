@@ -20,6 +20,8 @@ package
 
         public function GameoverState()
         {
+            Registry.fadeInProgress = true;
+            FlxG.flash(0xff000000, 1, Registry.fadeDone);
             add(new FlxSprite(0, 0, Registry.backGroundImage));
             add(new FlxSprite(70, 60, gameOverText));
             scoreSprite = new FlxSprite(170, 160, scoreText);
@@ -41,27 +43,35 @@ package
             add(clickSprite);
         }
 
+        override public function create():void
+        {
+            Registry.fadeInProgress = true;
+            FlxG.flash(0xff000000, 1, Registry.fadeDone);
+        }
+
         override public function update():void
         {
-            if (textFading) {
-                if (clickSprite.alpha > 0) {
-                    clickSprite.alpha -= FlxG.elapsed;
+            if (!Registry.fadeInProgress) {
+                if (textFading) {
+                    if (clickSprite.alpha > 0) {
+                        clickSprite.alpha -= FlxG.elapsed;
+                    } else {
+                        textFading = false;
+                    }
                 } else {
-                    textFading = false;
+                    if (clickSprite.alpha < 1) {
+                        clickSprite.alpha += FlxG.elapsed;
+                    } else {
+                        textFading = true;
+                    }
                 }
-            } else {
-                if (clickSprite.alpha < 1) {
-                    clickSprite.alpha += FlxG.elapsed;
-                } else {
-                    textFading = true;
-                }
-            }
 
 
-            if (FlxG.mouse.justPressed()) {
-                FlxG.switchState(new MenuState());
+                if (FlxG.mouse.justPressed()) {
+                    FlxG.switchState(new MenuState());
+                }
+                super.update();
             }
-            super.update();
         }
     }
 
