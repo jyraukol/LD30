@@ -8,7 +8,7 @@ package gameObjects
         private const MARGIN_TOP:int = 80;
         private const MARGIN_LEFT:int = 60;
         private const GAME_AREA_WIDTH:int = 8;
-        private const GAME_AREA_HEIGHT:int = 4;
+        private const GAME_AREA_HEIGHT:int = 5;
         private const WORLD_SIZE:int = 64;
 
         private var worldArray:Array = new Array();

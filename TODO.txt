@@ -3,6 +3,7 @@
 - Moving worlds, DONE
 - Lock input when animations play, DONE
 - Need to check for valid moves
+- Revert a swap if it made no matches, DONE
 - Refactoring
 - Graphics
 - Sounds

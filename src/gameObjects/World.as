@@ -7,11 +7,13 @@ package gameObjects
 
     public class World extends FlxSprite
     {
-        [Embed(source = "../../assets/gem1.png")] private var image1:Class;
-        [Embed(source = "../../assets/gem2.png")] private var image2:Class;
-        [Embed(source = "../../assets/gem3.png")] private var image3:Class;
-        [Embed(source = "../../assets/gem4.png")] private var image4:Class;
-        private var images:Array = new Array(image1, image2, image3, image4);
+        [Embed(source = "../../assets/p1.png")] private var image1:Class;
+        [Embed(source = "../../assets/p2.png")] private var image2:Class;
+        [Embed(source = "../../assets/p3.png")] private var image3:Class;
+        [Embed(source = "../../assets/p4.png")] private var image4:Class;
+        [Embed(source = "../../assets/p5.png")] private var image5:Class;
+        [Embed(source = "../../assets/p6.png")] private var image6:Class;
+        private var images:Array = new Array(image1, image2, image3, image4, image5, image6);
         public var worldType:int;
         private const VANISH_TIME:Number = 0.5;
         private var resetWorld:Boolean = false;
@@ -27,14 +29,14 @@ package gameObjects
 
         public function World(x:int, y:int)
         {
-            worldType = FlxG.random() * 4;
+            worldType = FlxG.random() * 6;
             var image:Class = Class(images[worldType]);
             super(x, y, image);
         }
 
         private function createNewWorld():void
         {
-            worldType = FlxG.random() * 4;
+            worldType = FlxG.random() * 6;
             var image:Class = Class(images[worldType]);
             loadGraphic(image);
         }
