@@ -99,7 +99,7 @@ package gameObjects
                 }
             }
             if (overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y))) {
-                    alpha = 0.5;
+                    alpha = 0.75;
                 } else {
                     alpha = 1;
                 }

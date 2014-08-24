@@ -15,7 +15,7 @@ package gameObjects
         private const WORLD_SIZE:int = 64;
         private const SPACING_X:int = 4;
         private const SPACING_Y:int = 4;
-        private const comboTimeLimit:int = 2;
+        private const comboTimeLimit:int = 2.5;
 
         private var worldArray:Array = new Array();
         private var gameState:PlayState;
@@ -38,8 +38,8 @@ package gameObjects
                 if (matches.length > 0) {
                     for (var i:int = 0; i < matches.length; i++ ) {
                         matches[i].dieAndBornAnew();
-                        MusicManager.playSound(MusicManager.MATCH);
                     }
+                    MusicManager.playSound(MusicManager.MATCH);
                     gameState.addScore(10 * matches.length * (runningCombo + 1));
                     runningCombo++;
 

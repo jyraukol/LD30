@@ -15,6 +15,10 @@ package
         private var startGame:FlxSprite;
         private var instructions:FlxSprite;
 
+        private var showingInstructions:Boolean = false;
+        private var instructionsBackground:FlxSprite;
+        private var instructionsText:FlxText;
+
         public function MenuState()
         {
             add(new FlxSprite(0, 0, Registry.backGroundImage));
@@ -40,20 +44,41 @@ package
         override public function update():void
         {
             if (!Registry.fadeInProgress) {
-                if (startGame.overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y))) {
-                    startGame.color = 0xaaEC7600;
-                    if (FlxG.mouse.justPressed()) {
-                        FlxG.fade(0xff000000, 1, loadPlayState);
-                    }
-                } else if (instructions.overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y))) {
-                    instructions.color = 0xaaEC7600;
+                if (showingInstructions) {
+                    updateInstructions();
                 } else {
-                    startGame.color = 0xFFFFFFFF;
-                    instructions.color = 0xFFFFFFFF;
+                    if (startGame.overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y))) {
+                        startGame.color = 0xaaEC7600;
+                        if (FlxG.mouse.justPressed()) {
+                            FlxG.fade(0xff000000, 1, loadPlayState);
+                        }
+                    } else if (instructions.overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y))) {
+                        instructions.color = 0xaaEC7600;
+                        if (FlxG.mouse.justPressed()) {
+                            showingInstructions = true;
+                            instructionsBackground = new FlxSprite(80, 60);
+                            instructionsBackground.makeGraphic(480, 400, 0xff000000);
+                            add(instructionsBackground);
+
+                        }
+                    } else {
+                        startGame.color = 0xFFFFFFFF;
+                        instructions.color = 0xFFFFFFFF;
+                    }
                 }
                 super.update();
             }
         }
+
+        private function updateInstructions():void
+        {
+            if (FlxG.mouse.justPressed()) {
+                remove(instructionsText);
+                remove(instructionsBackground);
+                showingInstructions = false;
+            }
+        }
+
 
         private function loadPlayState():void {
             FlxG.switchState(new PlayState());
